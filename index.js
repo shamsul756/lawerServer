@@ -87,19 +87,22 @@ async function run() {
       res.send(result);
     });
 
-    
+    app.get("/api/single-events/:id", async (req, res) => {
+      const { id } = req.params;
 
-    // ---------------- BOOKING ----------------
-    app.post("/api/events/booking", async (req, res) => {
-      const data = req.body;
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid event id" });
+      }
 
-      const booking = await bookingCollection.insertOne({
-        ...data,
-        createdAt: new Date(),
+      const result = await eventsCollection.findOne({
+        _id: new ObjectId(id),
       });
 
-      res.send(booking);
+      res.send(result);
     });
+
+    // ---------------- BOOKING ----------------
+    
 
     app.get("/api/events/booking/:email", async (req, res) => {
       const { email } = req.params;
