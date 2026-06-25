@@ -82,21 +82,12 @@ async function run() {
     });
 
     // ---------------- EVENTS ----------------
-   
-
-    app.get("/api/single-events/:id", async (req, res) => {
-      const { id } = req.params;
-
-      if (!ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "Invalid event id" });
-      }
-
-      const result = await eventsCollection.findOne({
-        _id: new ObjectId(id),
-      });
-
+    app.get("/api/events", async (req, res) => {
+      const result = await eventsCollection.find().toArray();
       res.send(result);
     });
+
+    
 
     // ---------------- BOOKING ----------------
     app.post("/api/events/booking", async (req, res) => {
