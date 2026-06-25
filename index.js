@@ -69,7 +69,11 @@ async function run() {
     });
 
     // ---------------- CHAMBERS ----------------
-   
+    app.get("/api/chamber/:email", async (req, res) => {
+      const { email } = req.params;
+      const result = await chamberCollection.findOne({ lawyerEmail: email });
+      res.send(result);
+    });
 
     app.post("/api/chambers", async (req, res) => {
       const data = req.body;
@@ -78,10 +82,7 @@ async function run() {
     });
 
     // ---------------- EVENTS ----------------
-    app.get("/api/events", async (req, res) => {
-      const result = await eventsCollection.find().toArray();
-      res.send(result);
-    });
+   
 
     app.get("/api/single-events/:id", async (req, res) => {
       const { id } = req.params;
