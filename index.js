@@ -6,7 +6,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || "https://legal-server-main.vercel.app";
 
 // middleware
 app.use(cors());
@@ -28,8 +28,8 @@ async function run() {
     const db = client.db(process.env.DBNAME);
 
     // collections
-    const usersCollection = db.collection("user"); // তোমার DB অনুযায়ী "user"
-    const lawyersCollection = db.collection("user"); // lawyer = user role
+    const usersCollection = db.collection("LegalEase"); 
+    const guestCollection = db.collection("guest"); 
     const eventsCollection = db.collection("legal_events");
     const chamberCollection = db.collection("chambers");
     const bookingCollection = db.collection("bookings");
@@ -39,7 +39,7 @@ async function run() {
 
     // ---------------- LAWYERS ----------------
     app.get("/api/lawyers", async (req, res) => {
-      const result = await usersCollection.find({ role: "lawer" }).toArray();
+      const result = await usersCollection.find({ role: "lawyer" }).toArray();
       res.send(result);
     });
 
@@ -52,7 +52,7 @@ async function run() {
 
       const result = await usersCollection.findOne({
         _id: new ObjectId(id),
-        role: "lawer", // তোমার DB-তে spelling "lawer"
+        role: "lawyer", // তোমার DB-তে spelling "lawyer"
       });
 
       res.send(result);
