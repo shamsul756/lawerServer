@@ -43,20 +43,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/api/lawyers/:id", async (req, res) => {
-      const { id } = req.params;
-
-      if (!ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "Invalid lawyer id" });
-      }
-
-      const result = await usersCollection.findOne({
-        _id: new ObjectId(id),
-        role: "lawer", // তোমার DB-তে spelling "lawer"
-      });
-
-      res.send(result);
-    });
+   
 
     // ---------------- USERS ----------------
     app.get("/api/users/:email", async (req, res) => {
