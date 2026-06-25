@@ -135,7 +135,16 @@ async function run() {
     });
 
     // ---------------- PREMIUM ----------------
+    app.patch("/api/users/upgrade-premium/:email", async (req, res) => {
+      const { email } = req.params;
 
+      const result = await usersCollection.updateOne(
+        { email },
+        { $set: { isPremium: true } }
+      );
+
+      res.send(result);
+    });
 
   } catch (error) {
     console.log("DB Error:", error);
