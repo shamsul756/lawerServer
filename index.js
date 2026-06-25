@@ -124,19 +124,18 @@ async function run() {
     });
 
     // ---------------- PAYMENT ----------------
-    
-
-    // ---------------- PREMIUM ----------------
-    app.patch("/api/users/upgrade-premium/:email", async (req, res) => {
+    app.get("/api/payment/:email", async (req, res) => {
       const { email } = req.params;
 
-      const result = await usersCollection.updateOne(
-        { email },
-        { $set: { isPremium: true } }
-      );
+      const result = await paymentCollection
+        .find({ userEmail: email })
+        .toArray();
 
       res.send(result);
     });
+
+    // ---------------- PREMIUM ----------------
+
 
   } catch (error) {
     console.log("DB Error:", error);
