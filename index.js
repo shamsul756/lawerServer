@@ -38,12 +38,21 @@ async function run() {
     console.log("MongoDB connected");
 
     // ---------------- LAWYERS ----------------
-    app.get("/api/lawyers", async (req, res) => {
-      const result = await usersCollection.find({ role: "lawer" }).toArray();
+   
+ app.get("/api/lawyers/:id", async (req, res) => {
+      const { id } = req.params;
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid lawyer id" });
+      }
+
+      const result = await usersCollection.findOne({
+        _id: new ObjectId(id),
+        role: "lawer", // তোমার DB-তে spelling "lawer"
+      });
+
       res.send(result);
     });
-
-
 
    
 
