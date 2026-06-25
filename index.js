@@ -102,7 +102,16 @@ async function run() {
     });
 
     // ---------------- BOOKING ----------------
-    
+    app.post("/api/events/booking", async (req, res) => {
+      const data = req.body;
+
+      const booking = await bookingCollection.insertOne({
+        ...data,
+        createdAt: new Date(),
+      });
+
+      res.send(booking);
+    });
 
     app.get("/api/events/booking/:email", async (req, res) => {
       const { email } = req.params;
@@ -115,15 +124,7 @@ async function run() {
     });
 
     // ---------------- PAYMENT ----------------
-    app.get("/api/payment/:email", async (req, res) => {
-      const { email } = req.params;
-
-      const result = await paymentCollection
-        .find({ userEmail: email })
-        .toArray();
-
-      res.send(result);
-    });
+    
 
     // ---------------- PREMIUM ----------------
     app.patch("/api/users/upgrade-premium/:email", async (req, res) => {
